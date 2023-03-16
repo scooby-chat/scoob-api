@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scoobyapi
+spec:
+  selector:
+    matchLabels:
+      app: scoobyapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scoobyapi
+    spec:
+      containers:
+        - name: scoobyapi
+          image: localhost:32000/scoobyapi:latest
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          env:
+            - name: GPT_AUTHORIZATION_TOKEN
+              valueFrom:
+                  configMapKeyRef:
+                    name: scooby-api
+                    key: gpt_authorization_token
+          ports:
+            - containerPort: 9000

@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scooby-api
+data:
+  gpt_authorization_token: "change-me"

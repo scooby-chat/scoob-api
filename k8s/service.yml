@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: scoobyapi
+  labels:
+    app: scoobyapi
+spec:
+  ports:
+    - port: 9000
+  type: ClusterIP
+  selector:
+    app: scoobyapi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scoobyapi
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /chat
+            pathType: Prefix
+            backend:
+              service:
+                name: scoobyapi
+                port:
+                  number: 9000
